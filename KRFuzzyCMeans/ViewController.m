@@ -1,13 +1,21 @@
-ios-KRFuzzyCMeans-Algorithm
-=================
+//
+//  ViewController.m
+//  KRFuzzyCMeans
+//
+//  Created by Kalvar on 2015/4/6.
+//  Copyright (c) 2015年 Kalvar. All rights reserved.
+//
 
-KRFuzzyCMeans has implemented Fuzzy C-Means (FCM) the fuzzy classification algorithm. If you wanna know how to use and the details, you could contact me via email.
-
-``` objective-c
+#import "ViewController.h"
 #import "KRFuzzyCMeans.h"
 
-- (void)viewDidLoad 
-{
+@interface ViewController ()
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     KRFuzzyCMeans *_krFcm   = [KRFuzzyCMeans sharedFCM];
@@ -31,12 +39,10 @@ KRFuzzyCMeans has implemented Fuzzy C-Means (FCM) the fuzzy classification algor
     }];
     
 }
-```
 
-## Version
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
-V1.0
-
-## License
-
-MIT.
+@end
