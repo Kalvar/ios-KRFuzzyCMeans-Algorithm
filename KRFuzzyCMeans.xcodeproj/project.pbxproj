@@ -14,7 +14,7 @@
 		8E44AE6D1AD1A26D00A3F154 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E44AE6C1AD1A26D00A3F154 /* Images.xcassets */; };
 		8E44AE701AD1A26D00A3F154 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E44AE6E1AD1A26D00A3F154 /* LaunchScreen.xib */; };
 		8E44AE7C1AD1A26D00A3F154 /* KRFuzzyCMeansTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E44AE7B1AD1A26D00A3F154 /* KRFuzzyCMeansTests.m */; };
-		8E44AE8A1AD1A44100A3F154 /* KRFuzzyCMeans.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E44AE881AD1A44100A3F154 /* KRFuzzyCMeans.m */; };
+		8E6E14E51AFD29FC000F743C /* KRFuzzyCMeans.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E14E41AFD29FC000F743C /* KRFuzzyCMeans.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,8 +41,8 @@
 		8E44AE751AD1A26D00A3F154 /* KRFuzzyCMeansTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KRFuzzyCMeansTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E44AE7A1AD1A26D00A3F154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E44AE7B1AD1A26D00A3F154 /* KRFuzzyCMeansTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KRFuzzyCMeansTests.m; sourceTree = "<group>"; };
-		8E44AE871AD1A44100A3F154 /* KRFuzzyCMeans.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRFuzzyCMeans.h; sourceTree = "<group>"; };
-		8E44AE881AD1A44100A3F154 /* KRFuzzyCMeans.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRFuzzyCMeans.m; sourceTree = "<group>"; };
+		8E6E14E31AFD29FC000F743C /* KRFuzzyCMeans.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRFuzzyCMeans.h; sourceTree = "<group>"; };
+		8E6E14E41AFD29FC000F743C /* KRFuzzyCMeans.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRFuzzyCMeans.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,20 +126,20 @@
 		8E44AE851AD1A3C000A3F154 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8E44AE861AD1A3C000A3F154 /* FCM */,
+				8E6E14E21AFD29FC000F743C /* FCM */,
 			);
 			name = Classes;
 			path = KRFuzzyCMeans/Classes;
 			sourceTree = "<group>";
 		};
-		8E44AE861AD1A3C000A3F154 /* FCM */ = {
+		8E6E14E21AFD29FC000F743C /* FCM */ = {
 			isa = PBXGroup;
 			children = (
-				8E44AE871AD1A44100A3F154 /* KRFuzzyCMeans.h */,
-				8E44AE881AD1A44100A3F154 /* KRFuzzyCMeans.m */,
+				8E6E14E31AFD29FC000F743C /* KRFuzzyCMeans.h */,
+				8E6E14E41AFD29FC000F743C /* KRFuzzyCMeans.m */,
 			);
 			path = FCM;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -243,7 +243,7 @@
 			files = (
 				8E44AE681AD1A26D00A3F154 /* ViewController.m in Sources */,
 				8E44AE651AD1A26D00A3F154 /* AppDelegate.m in Sources */,
-				8E44AE8A1AD1A44100A3F154 /* KRFuzzyCMeans.m in Sources */,
+				8E6E14E51AFD29FC000F743C /* KRFuzzyCMeans.m in Sources */,
 				8E44AE621AD1A26D00A3F154 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
