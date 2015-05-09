@@ -3,6 +3,15 @@ ios-KRFuzzyCMeans-Algorithm
 
 KRFuzzyCMeans has implemented Fuzzy C-Means (FCM) the fuzzy (ファジー理論) clustering / classification algorithm (クラスタリング分類) on Machine Learning (マシンラーニング). It could be used in data mining (データマイニング) and image compression (画像圧縮). If you wanna know how to use and the details, you could contact me via email.
 
+#### Podfile
+
+```ruby
+platform :ios, '7.0'
+pod "KRFuzzyCMeans", "~> 1.0"
+```
+
+## How to use
+
 ``` objective-c
 #import "KRFuzzyCMeans.h"
 
