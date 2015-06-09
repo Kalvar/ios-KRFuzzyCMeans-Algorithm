@@ -1,6 +1,6 @@
 //
 //  KRFuzzyCMeans.h
-//  KRFuzzyCMeans V1.0
+//  KRFuzzyCMeans V1.1
 //
 //  Created by Kalvar on 2015/4/6.
 //  Copyright (c) 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -30,7 +30,7 @@ typedef void(^KRFuzzyCMeansEachGeneration)(NSInteger times, NSArray *clusters, N
 //群聚形心集合(會被 Updated)
 @property (nonatomic, strong) NSMutableArray *centrals;
 //要分群的集合數據
-@property (nonatomic, strong) NSArray *patterns;
+@property (nonatomic, strong) NSMutableArray *patterns;
 //分群結果
 @property (nonatomic, strong) NSMutableArray *results;
 //收斂誤差
@@ -51,6 +51,7 @@ typedef void(^KRFuzzyCMeansEachGeneration)(NSInteger times, NSArray *clusters, N
 -(void)clustering;
 -(void)addCentralX:(float)_x y:(float)_y;
 -(void)addPatterns:(NSArray *)_theSets;
+-(void)addOnePattern:(NSArray *)_oneSets;
 -(void)printResults;
 
 #pragma --mark Blocks

@@ -1,6 +1,6 @@
 //
 //  KRFuzzyCMeans.m
-//  KRFuzzyCMeans V1.0
+//  KRFuzzyCMeans V1.1
 //
 //  Created by Kalvar on 2015/4/6.
 //  Copyright (c) 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -233,7 +233,7 @@
     if( self )
     {
         _centrals           = [NSMutableArray new];
-        _patterns            = nil;
+        _patterns           = [NSMutableArray new];
         _results            = [NSMutableArray new];
         _convergenceError   = 0.001f;
         _limitGenerations   = 5000;
@@ -332,20 +332,26 @@
 
 -(void)addPatterns:(NSArray *)_theSets
 {
-    _patterns = _theSets;
+    [_patterns addObjectsFromArray:_theSets];
+}
+
+-(void)addOnePattern:(NSArray *)_oneSets
+{
+    [_patterns addObject:_oneSets];
 }
 
 -(void)printResults
 {
+    NSLog(@"=================== printResults (Start) =================\n\n\n");
     NSLog(@"centrals : %@", _centrals);
-    NSLog(@"====================================\n\n\n");
     int _i = 1;
     for( NSArray *_clusters in _results )
     {
         NSLog(@"clusters (%i) : %@", _i, _clusters);
-        NSLog(@"====================================\n\n\n");
+        NSLog(@"---------------------------------------------\n\n\n");
         ++_i;
     }
+    NSLog(@"=================== printResults (End) =================\n\n\n");
 }
 
 #pragma --mark Blocks
