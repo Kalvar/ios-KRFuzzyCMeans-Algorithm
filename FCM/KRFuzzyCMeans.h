@@ -45,13 +45,12 @@ typedef void(^KRFuzzyCMeansEachGeneration)(NSInteger times, NSArray *clusters, N
 
 +(instancetype)sharedFCM;
 -(instancetype)init;
--(void)directCluster;
--(void)clusteringWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion eachGeneration:(KRFuzzyCMeansEachGeneration)_generation;
--(void)clusteringWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion;
--(void)clustering;
+-(void)clusterWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion eachGeneration:(KRFuzzyCMeansEachGeneration)_generation;
+-(void)clusterWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion;
+-(void)cluster;
+-(void)directClusterPatterns:(NSArray *)_directPatterns;
 -(void)addCentralX:(float)_x y:(float)_y;
 -(void)addPatterns:(NSArray *)_theSets;
--(void)addOnePattern:(NSArray *)_oneSets;
 -(void)printResults;
 
 #pragma --mark Blocks

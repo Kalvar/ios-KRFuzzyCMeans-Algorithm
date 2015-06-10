@@ -255,17 +255,19 @@
  *   - 不需要更新群聚形心
  *   - 不建議使用此方法
  */
--(void)directCluster
+-(void)directClusterPatterns:(NSArray *)_directPatterns
 {
     //If it doesn't have sources, then directly use the original sets to be clustered results.
-    if( _patterns == nil )
+    if( _directPatterns == nil || [_directPatterns count] < 1 )
     {
         return;
     }
     
-    if( [_centrals count] > 0 && [_patterns count] > 0 )
+    [self addPatterns:_directPatterns];
+    
+    if( [_centrals count] > 0 )
     {
-        //分群結果陣列的長度 < 分群中心點的長度
+        //分群結果陣列的組數 < 分群中心點的組數
         NSInteger _resultCount  = [_results count];
         NSInteger _centralCount = [_centrals count];
         if( _resultCount < _centralCount )
@@ -281,7 +283,7 @@
         }
         
         _lastCenters = [_centrals copy]; //預留參數，暫無用處
-        for( NSArray *_xy in _patterns )
+        for( NSArray *_xy in _directPatterns )
         {
             float _maxDistance = 0.0f;
             int _toIndex       = 0;
@@ -307,7 +309,7 @@
  * @ FCM 進行迭代運算不斷的重新分群
  *
  */
--(void)clusteringWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion eachGeneration:(KRFuzzyCMeansEachGeneration)_generation
+-(void)clusterWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion eachGeneration:(KRFuzzyCMeansEachGeneration)_generation
 {
     _clusterCompletion  = _completion;
     _eachGeneration     = _generation;
@@ -315,14 +317,14 @@
     [self _clusterSources:_patterns compareCenters:_centrals];
 }
 
--(void)clusteringWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion
+-(void)clusterWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion
 {
-    [self clusteringWithCompletion:_completion eachGeneration:nil];
+    [self clusterWithCompletion:_completion eachGeneration:nil];
 }
 
--(void)clustering
+-(void)cluster
 {
-    [self clusteringWithCompletion:nil];
+    [self clusterWithCompletion:nil];
 }
 
 -(void)addCentralX:(float)_x y:(float)_y
@@ -333,11 +335,6 @@
 -(void)addPatterns:(NSArray *)_theSets
 {
     [_patterns addObjectsFromArray:_theSets];
-}
-
--(void)addOnePattern:(NSArray *)_oneSets
-{
-    [_patterns addObject:_oneSets];
 }
 
 -(void)printResults
