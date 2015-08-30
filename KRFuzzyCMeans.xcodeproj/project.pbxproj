@@ -66,7 +66,7 @@
 		8E44AE531AD1A26D00A3F154 = {
 			isa = PBXGroup;
 			children = (
-				8E44AE851AD1A3C000A3F154 /* Classes */,
+				8E6E14E21AFD29FC000F743C /* FCM */,
 				8E44AE5E1AD1A26D00A3F154 /* KRFuzzyCMeans */,
 				8E44AE781AD1A26D00A3F154 /* KRFuzzyCMeansTests */,
 				8E44AE5D1AD1A26D00A3F154 /* Products */,
@@ -121,15 +121,6 @@
 				8E44AE7A1AD1A26D00A3F154 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		8E44AE851AD1A3C000A3F154 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				8E6E14E21AFD29FC000F743C /* FCM */,
-			);
-			name = Classes;
-			path = KRFuzzyCMeans/Classes;
 			sourceTree = "<group>";
 		};
 		8E6E14E21AFD29FC000F743C /* FCM */ = {

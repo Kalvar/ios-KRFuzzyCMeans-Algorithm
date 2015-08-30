@@ -7,7 +7,7 @@ KRFuzzyCMeans has implemented Fuzzy C-Means (FCM) the fuzzy (ファジー理論)
 
 ```ruby
 platform :ios, '7.0'
-pod "KRFuzzyCMeans", "~> 1.1"
+pod "KRFuzzyCMeans", "~> 1.2"
 ```
 
 ## How to use
@@ -60,7 +60,7 @@ pod "KRFuzzyCMeans", "~> 1.1"
 
 ## Version
 
-V1.1
+V1.2
 
 ## License
 
