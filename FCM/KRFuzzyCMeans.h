@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum KRFuzzyCMeansDistanceFormula
+{
+    // Distance by Cosine Similarity
+    KRFuzzyCMeansDistanceFormulaByCosine    = 0,
+    // Distance by Euclidean Distance
+    KRFuzzyCMeansDistanceFormulaByEuclidean = 1
+}KRFuzzyCMeansDistanceFormula;
+
 /*
  * @ 訓練完成時
  *   - success     : 是否訓練成功
@@ -23,7 +31,7 @@ typedef void(^KRFuzzyCMeansClusteringCompletion)(BOOL success, NSArray *clusters
  *   - clusters    : 本次的分群結果
  *   - centers     : 本次的群聚中心點
  */
-typedef void(^KRFuzzyCMeansEachGeneration)(NSInteger times, NSArray *clusters, NSArray *centrals);
+typedef void(^KRFuzzyCMeansPerIteration)(NSInteger times, NSArray *clusters, NSArray *centrals);
 
 @interface KRFuzzyCMeans : NSObject
 
@@ -36,16 +44,18 @@ typedef void(^KRFuzzyCMeansEachGeneration)(NSInteger times, NSArray *clusters, N
 //收斂誤差
 @property (nonatomic, assign) float convergenceError;
 //迭代運算上限次數
-@property (nonatomic, assign) NSInteger limitGenerations;
+@property (nonatomic, assign) NSInteger maxIteration;
 //FCM 公式 m 參數
 @property (nonatomic, assign) NSInteger m;
 
+@property (nonatomic, assign) KRFuzzyCMeansDistanceFormula distanceFormula;
+
 @property (nonatomic, copy) KRFuzzyCMeansClusteringCompletion clusterCompletion;
-@property (nonatomic, copy) KRFuzzyCMeansEachGeneration eachGeneration;
+@property (nonatomic, copy) KRFuzzyCMeansPerIteration perIteration;
 
 +(instancetype)sharedFCM;
 -(instancetype)init;
--(void)clusterWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion eachGeneration:(KRFuzzyCMeansEachGeneration)_generation;
+-(void)clusterWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion perIteration:(KRFuzzyCMeansPerIteration)_generation;
 -(void)clusterWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion;
 -(void)cluster;
 -(void)directClusterPatterns:(NSArray *)_directPatterns;
@@ -55,6 +65,6 @@ typedef void(^KRFuzzyCMeansEachGeneration)(NSInteger times, NSArray *clusters, N
 
 #pragma --mark Blocks
 -(void)setClusterCompletion:(KRFuzzyCMeansClusteringCompletion)_theBlock;
--(void)setEachGeneration:(KRFuzzyCMeansEachGeneration)_theBlock;
+-(void)setPerIteration:(KRFuzzyCMeansPerIteration)_theBlock;
 
 @end

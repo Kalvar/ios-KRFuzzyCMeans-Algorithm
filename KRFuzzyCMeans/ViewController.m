@@ -17,13 +17,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     KRFuzzyCMeans *_krFcm   = [KRFuzzyCMeans sharedFCM];
     _krFcm.m                = 3;
     _krFcm.convergenceError = 0.001f;
+    //_krFcm.distanceFormula  = KRFuzzyCMeansDistanceFormulaByCosine;
     [_krFcm addCentralX:5.0f y:5.0f];     //The center 1, cluster 1 start in here
     [_krFcm addCentralX:10.0f y:10.0f];   //The center 2, cluster 2 start in here
-    [_krFcm addCentralX:12.0f y:14.0f];   //The center 3, cluster 3 start in here
+    //[_krFcm addCentralX:12.0f y:14.0f];   //The center 3, cluster 3 start in here
     [_krFcm addPatterns:@[@[@2, @12], @[@4, @9], @[@7, @13], @[@11, @5], @[@12, @7], @[@14, @4]]];
     [_krFcm clusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centrals, NSInteger totalTimes)
     {
@@ -47,7 +47,7 @@
             //... Do your next step.
         }];
         
-    } eachGeneration:^(NSInteger times, NSArray *clusters, NSArray *centrals)
+    } perIteration:^(NSInteger times, NSArray *clusters, NSArray *centrals)
     {
         NSLog(@"times : %li", times);
         NSLog(@"clusters : %@", clusters);
