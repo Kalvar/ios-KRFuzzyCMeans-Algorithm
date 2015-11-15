@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KRFuzzyCMeans"
-  s.version      = "1.2"
+  s.version      = "1.3"
   s.summary      = "Fuzzy C-Means is clustering algorithm combined fuzzy theory on Machine Learning."
   s.description  = <<-DESC
                    KRFuzzyCMeans has implemented Fuzzy C-Means (FCM) the fuzzy (ファジー理論) clustering / classification algorithm (クラスタリング分類) in Machine Learning (マシンラーニング). It could be used in data mining (データマイニング) and image compression (画像圧縮).

@@ -15,16 +15,19 @@
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     KRFuzzyCMeans *_krFcm   = [KRFuzzyCMeans sharedFCM];
+    _krFcm.doneThenSave     = YES;
     _krFcm.m                = 3;
     _krFcm.convergenceError = 0.001f;
-    //_krFcm.distanceFormula  = KRFuzzyCMeansDistanceFormulaByCosine;
-    [_krFcm addCentralX:5.0f y:5.0f];     //The center 1, cluster 1 start in here
-    [_krFcm addCentralX:10.0f y:10.0f];   //The center 2, cluster 2 start in here
-    //[_krFcm addCentralX:12.0f y:14.0f];   //The center 3, cluster 3 start in here
+    _krFcm.distanceFormula  = KRFuzzyCMeansDistanceFormulaByEuclidean; //KRFuzzyCMeansDistanceFormulaByCosine
+    [_krFcm addCenters:@[@5.0f, @5.0f]];     //The center 1, cluster 1 start in here
+    [_krFcm addCenters:@[@10.0f, @10.0f]];   //The center 2, cluster 2 start in here
+    [_krFcm addCenters:@[@12.0f, @14.0f]];   //The center 3, cluster 3 start in here
     [_krFcm addPatterns:@[@[@2, @12], @[@4, @9], @[@7, @13], @[@11, @5], @[@12, @7], @[@14, @4]]];
+    
     [_krFcm clusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centrals, NSInteger totalTimes)
     {
         NSLog(@"\n\n===============================================\n\n");
@@ -33,9 +36,7 @@
         NSLog(@"centrals : %@", centrals);
         NSLog(@"\n\n===============================================\n\n");
         
-        //Start in verify and classify others pattern.
-        
-        //If you don't want to adjust the central groups, just wanna directly classify them, you could use :
+        //Directly verify and classify others pattern without continually training the centers, you could use :
         [_krFcm directClusterPatterns:@[@[@2, @3], @[@3, @3], @[@5, @9]]];
         [_krFcm printResults];
         
@@ -53,7 +54,6 @@
         NSLog(@"clusters : %@", clusters);
         NSLog(@"centrals : %@", centrals);
     }];
-    
 }
 
 - (void)didReceiveMemoryWarning {

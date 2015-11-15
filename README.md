@@ -7,60 +7,66 @@ KRFuzzyCMeans has implemented Fuzzy C-Means (FCM) the fuzzy (ファジー理論)
 
 ```ruby
 platform :ios, '7.0'
-pod "KRFuzzyCMeans", "~> 1.2"
+pod "KRFuzzyCMeans", "~> 1.3"
 ```
 
 ## How to use
 
+#### Import
 ``` objective-c
 #import "KRFuzzyCMeans.h"
+```
 
-- (void)viewDidLoad 
+#### Training
+``` objective-c
+KRFuzzyCMeans *_krFcm   = [KRFuzzyCMeans sharedFCM];
+_krFcm.doneThenSave     = YES;
+_krFcm.m                = 3;
+_krFcm.convergenceError = 0.001f;
+_krFcm.distanceFormula  = KRFuzzyCMeansDistanceFormulaByEuclidean; //KRFuzzyCMeansDistanceFormulaByCosine
+[_krFcm addCenters:@[@5.0f, @5.0f]];     //The center 1, cluster 1 start in here
+[_krFcm addCenters:@[@10.0f, @10.0f]];   //The center 2, cluster 2 start in here
+[_krFcm addCenters:@[@12.0f, @14.0f]];   //The center 3, cluster 3 start in here
+[_krFcm addPatterns:@[@[@2, @12], @[@4, @9], @[@7, @13], @[@11, @5], @[@12, @7], @[@14, @4]]];
+
+[_krFcm clusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centrals, NSInteger totalTimes)
 {
-    [super viewDidLoad];
+    NSLog(@"\n\n===============================================\n\n");
+    NSLog(@"totalTimes : %li", totalTimes);
+    NSLog(@"results : %@", clusters);
+    NSLog(@"centrals : %@", centrals);
+    NSLog(@"\n\n===============================================\n\n");
     
-    KRFuzzyCMeans *_krFcm   = [KRFuzzyCMeans sharedFCM];
-    _krFcm.m                = 3;
-    _krFcm.convergenceError = 0.001f;
-    [_krFcm addCentralX:5.0f y:5.0f];     //The center 1, cluster 1 start in here
-    [_krFcm addCentralX:10.0f y:10.0f];   //The center 2, cluster 2 start in here
-    [_krFcm addCentralX:12.0f y:14.0f];   //The center 3, cluster 3 start in here
-    [_krFcm addPatterns:@[@[@2, @12], @[@4, @9], @[@7, @13], @[@11, @5], @[@12, @7], @[@14, @4]]];
+    //Directly verify and classify others pattern without continually training the centers, you could use :
+    [_krFcm directClusterPatterns:@[@[@2, @3], @[@3, @3], @[@5, @9]]];
+    [_krFcm printResults];
+    
+    //If you have one or more patterns need to do standard classification, use this to renew all groups and re-adjust the central groups :
+    [_krFcm addPatterns:@[@[@2, @3], @[@3, @3], @[@5, @9]]];
     [_krFcm clusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centrals, NSInteger totalTimes)
     {
-        NSLog(@"\n\n===============================================\n\n");
-        NSLog(@"totalTimes : %li", totalTimes);
-        NSLog(@"results : %@", clusters);
-        NSLog(@"centrals : %@", centrals);
-        NSLog(@"\n\n===============================================\n\n");
-        
-        //Start in verify and classify others pattern.
-        
-        //If you don't want to adjust the central groups, just wanna directly classify them, you could use :
-        [_krFcm directClusterPatterns:@[@[@2, @3], @[@3, @3], @[@5, @9]]];
         [_krFcm printResults];
-        
-        //If you have one or more patterns need to do standard classification, use this to renew all groups and re-adjust the central groups :
-        [_krFcm addPatterns:@[@[@2, @3], @[@3, @3], @[@5, @9]]];
-        [_krFcm clusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centrals, NSInteger totalTimes)
-        {
-            [_krFcm printResults];
-            //... Do your next step.
-        }];
-        
-    } eachGeneration:^(NSInteger times, NSArray *clusters, NSArray *centrals)
-    {
-        NSLog(@"times : %li", times);
-        NSLog(@"clusters : %@", clusters);
-        NSLog(@"centrals : %@", centrals);
+        //... Do your next step.
     }];
     
-}
+} perIteration:^(NSInteger times, NSArray *clusters, NSArray *centrals)
+{
+    NSLog(@"times : %li", times);
+    NSLog(@"clusters : %@", clusters);
+    NSLog(@"centrals : %@", centrals);
+}];
+```
+#### Recalling Tranined Centers
+``` objective-c
+// Recalling tranined centers that last saved.
+[_krFcm recallCenters];
+// Then, start to train or directly cluster the patterns.
+[_krFcm directClusterPatterns:@[@[@1, @5], @[@4, @2], @[@7, @3]]];
 ```
 
 ## Version
 
-V1.2
+V1.3
 
 ## License
 

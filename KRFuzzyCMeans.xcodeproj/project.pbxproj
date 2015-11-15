@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E3F30DA1BF83278004FEC88 /* KRFuzzyCMeansSaves.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F30D91BF83278004FEC88 /* KRFuzzyCMeansSaves.m */; settings = {ASSET_TAGS = (); }; };
 		8E44AE621AD1A26D00A3F154 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E44AE611AD1A26D00A3F154 /* main.m */; };
 		8E44AE651AD1A26D00A3F154 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E44AE641AD1A26D00A3F154 /* AppDelegate.m */; };
 		8E44AE681AD1A26D00A3F154 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E44AE671AD1A26D00A3F154 /* ViewController.m */; };
@@ -28,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E3F30D81BF83278004FEC88 /* KRFuzzyCMeansSaves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRFuzzyCMeansSaves.h; sourceTree = "<group>"; };
+		8E3F30D91BF83278004FEC88 /* KRFuzzyCMeansSaves.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRFuzzyCMeansSaves.m; sourceTree = "<group>"; };
 		8E44AE5C1AD1A26D00A3F154 /* KRFuzzyCMeans.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KRFuzzyCMeans.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E44AE601AD1A26D00A3F154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E44AE611AD1A26D00A3F154 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 		8E6E14E21AFD29FC000F743C /* FCM */ = {
 			isa = PBXGroup;
 			children = (
+				8E3F30D81BF83278004FEC88 /* KRFuzzyCMeansSaves.h */,
+				8E3F30D91BF83278004FEC88 /* KRFuzzyCMeansSaves.m */,
 				8E6E14E31AFD29FC000F743C /* KRFuzzyCMeans.h */,
 				8E6E14E41AFD29FC000F743C /* KRFuzzyCMeans.m */,
 			);
@@ -235,6 +240,7 @@
 				8E44AE681AD1A26D00A3F154 /* ViewController.m in Sources */,
 				8E44AE651AD1A26D00A3F154 /* AppDelegate.m in Sources */,
 				8E6E14E51AFD29FC000F743C /* KRFuzzyCMeans.m in Sources */,
+				8E3F30DA1BF83278004FEC88 /* KRFuzzyCMeansSaves.m in Sources */,
 				8E44AE621AD1A26D00A3F154 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

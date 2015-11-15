@@ -47,6 +47,8 @@ typedef void(^KRFuzzyCMeansPerIteration)(NSInteger times, NSArray *clusters, NSA
 @property (nonatomic, assign) NSInteger maxIteration;
 //FCM 公式 m 參數
 @property (nonatomic, assign) NSInteger m;
+//訓練完是否自動儲存
+@property (nonatomic, assign) BOOL doneThenSave;
 
 @property (nonatomic, assign) KRFuzzyCMeansDistanceFormula distanceFormula;
 
@@ -55,12 +57,16 @@ typedef void(^KRFuzzyCMeansPerIteration)(NSInteger times, NSArray *clusters, NSA
 
 +(instancetype)sharedFCM;
 -(instancetype)init;
+
 -(void)clusterWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion perIteration:(KRFuzzyCMeansPerIteration)_generation;
 -(void)clusterWithCompletion:(KRFuzzyCMeansClusteringCompletion)_completion;
 -(void)cluster;
 -(void)directClusterPatterns:(NSArray *)_directPatterns;
--(void)addCentralX:(float)_x y:(float)_y;
+
+-(void)addCenters:(NSArray *)_theCenters;
 -(void)addPatterns:(NSArray *)_theSets;
+
+-(void)recallCenters;
 -(void)printResults;
 
 #pragma --mark Blocks

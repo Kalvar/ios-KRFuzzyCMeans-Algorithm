@@ -7,6 +7,7 @@
 //
 
 #import "KRFuzzyCMeans.h"
+#import "KRFuzzyCMeansSaves.h"
 
 @interface KRFuzzyCMeans()
 
@@ -14,6 +15,8 @@
 @property (nonatomic, strong) NSMutableArray *lastCenters;
 //當前的迭代數
 @property (nonatomic, assign) NSInteger currentIteration;
+//儲存訓練好的群心和其它數據
+@property (nonatomic, strong) KRFuzzyCMeansSaves *trainedSaves;
 
 @end
 
@@ -75,21 +78,40 @@
 
 @end
 
+@implementation KRFuzzyCMeans(fixSaves)
+
+-(void)_saveCenters
+{
+    [self.trainedSaves saveCenters:self.centrals];
+}
+
+-(NSArray *)_fetchSavedCenters
+{
+    return [self.trainedSaves fetchCenters];
+}
+
+@end
+
 @implementation KRFuzzyCMeans(fixClusters)
 
 -(void)_doneClustering
 {
+    if( self.doneThenSave )
+    {
+        [self _saveCenters];
+    }
+    
     if( self.clusterCompletion )
     {
         self.clusterCompletion(YES, self.results, self.centrals, self.currentIteration);
     }
 }
 
-//更新群聚形心
+// 更新群聚形心
 -(NSArray *)_updateCenters:(NSArray *)_centers memberships:(NSArray *)_xMembersips patterns:(NSArray *)_sources
 {
     /*
-     * @ Design thinks
+     * @ Design thinks before
      *   - 如果在上面的 for{} 區塊進行歸屬度累加計算，就必須同時考量存取 N 個 Array ( 裡面儲存對每一個形心做 SUM 的數值 ) 的效能，
      *     同時重複存取 Array 的次數越多，其 performance 就越差，會遠比使用單一 for{} 來重複做事要更沒效能，
      *     因此，這裡才改用單一 for{} 來做多重存取，以避免重複操作太多 arraies 造成效能大降的問題，
@@ -145,8 +167,8 @@
     return _newCentrals;
 }
 
-//進行 Patterns 分類和歸屬度運算
-//return [0] = 分類好的群聚, [1] = 每一個 Pattern 對每一群心的歸屬度
+// 進行 Patterns 分類和歸屬度運算
+// return [0] = 分類好的群聚, [1] = 每一個 Pattern 對每一群心的歸屬度
 -(NSArray *)_clusteringPatterns:(NSArray *)_sources centers:(NSArray *)_centers
 {
     float _m                  = self.m;
@@ -221,7 +243,7 @@
     return @[_clusters, _xMembersips];
 }
 
-//取出跟上一次舊的群聚形心相比的最大誤差值
+// 取出跟上一次舊的群聚形心相比的最大誤差值
 -(float)_calculateErrorDistanceFromNewCenters:(NSArray *)_newCenters oldCenters:(NSArray *)_oldCenters
 {
     float _maxDistance     = 0.0f;
@@ -243,9 +265,7 @@
     return _maxDistance;
 }
 
-/*
- * @ 依照群聚中心點(形心) _centers 進行 _sources 群聚分類
- */
+// 依照群聚中心點(形心) _centers 進行 _sources 群聚分類
 -(void)_clusterSources:(NSArray *)_sources compareCenters:(NSArray *)_centers
 {
     if( [_centers count] > 0 )
@@ -254,7 +274,6 @@
         {
             self.m = 2;
         }
-        
         NSArray *_results     = [self _clusteringPatterns:_sources centers:_centers];
         NSArray *_clusters    = [_results objectAtIndex:0];
         NSArray *_membersips  = [_results objectAtIndex:1];
@@ -294,25 +313,11 @@
 
 @implementation KRFuzzyCMeans
 
-@synthesize centrals           = _centrals;
-@synthesize patterns            = _patterns;
-@synthesize results            = _results;
-@synthesize convergenceError   = _convergenceError;
-@synthesize maxIteration   = _maxIteration;
-@synthesize m                  = _m;
-
-@synthesize clusterCompletion  = _clusterCompletion;
-@synthesize perIteration     = _perIteration;
-
-@synthesize lastCenters        = _lastCenters;
-@synthesize currentIteration = _currentIteration;
-
 +(instancetype)sharedFCM
 {
     static dispatch_once_t pred;
     static KRFuzzyCMeans *_object = nil;
-    dispatch_once(&pred, ^
-    {
+    dispatch_once(&pred, ^{
         _object = [[KRFuzzyCMeans alloc] init];
     });
     return _object;
@@ -329,6 +334,7 @@
         _convergenceError   = 0.001f;
         _maxIteration       = 5000;
         _m                  = 2;
+        _doneThenSave       = YES;
         
         _clusterCompletion  = nil;
         _perIteration       = nil;
@@ -337,6 +343,7 @@
         _currentIteration   = 0;
         
         _distanceFormula    = KRFuzzyCMeansDistanceFormulaByEuclidean;
+        _trainedSaves       = [KRFuzzyCMeansSaves sharedInstance];
     }
     return self;
 }
@@ -406,7 +413,7 @@
 {
     _clusterCompletion  = _completion;
     _perIteration       = _generation;
-    _currentIteration = 0;
+    _currentIteration   = 0;
     [self _clusterSources:_patterns compareCenters:_centrals];
 }
 
@@ -420,14 +427,25 @@
     [self clusterWithCompletion:nil];
 }
 
--(void)addCentralX:(float)_x y:(float)_y
+-(void)addCenters:(NSArray *)_theCenters
 {
-    [_centrals addObject:@[[NSNumber numberWithFloat:_x], [NSNumber numberWithFloat:_y]]];
+    [_centrals addObject:_theCenters];
 }
 
 -(void)addPatterns:(NSArray *)_theSets
 {
     [_patterns addObjectsFromArray:_theSets];
+}
+
+// Recalling trained centers which saved in KRFuzzyCMeansSaves
+-(void)recallCenters
+{
+    NSArray *_savedCenters = [self _fetchSavedCenters];
+    if( nil != _savedCenters )
+    {
+        [_centrals removeAllObjects];
+        [_centrals addObjectsFromArray:_savedCenters];
+    }
 }
 
 -(void)printResults
@@ -452,7 +470,7 @@
 
 -(void)setPerIteration:(KRFuzzyCMeansPerIteration)_theBlock
 {
-    _perIteration    = _theBlock;
+    _perIteration = _theBlock;
 }
 
 @end
