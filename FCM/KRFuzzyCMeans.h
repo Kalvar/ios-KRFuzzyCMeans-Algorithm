@@ -11,9 +11,11 @@
 typedef enum KRFuzzyCMeansDistanceFormula
 {
     // Distance by Cosine Similarity
-    KRFuzzyCMeansDistanceFormulaByCosine    = 0,
+    KRFuzzyCMeansDistanceFormulaCosine    = 0,
     // Distance by Euclidean Distance
-    KRFuzzyCMeansDistanceFormulaByEuclidean = 1
+    KRFuzzyCMeansDistanceFormulaEuclidean,
+    // Distance by RBF
+    KRFuzzyCMeansDistanceFormulaRBF
 }KRFuzzyCMeansDistanceFormula;
 
 /*
@@ -49,6 +51,8 @@ typedef void(^KRFuzzyCMeansPerIteration)(NSInteger times, NSArray *clusters, NSA
 @property (nonatomic, assign) NSInteger m;
 //訓練完是否自動儲存
 @property (nonatomic, assign) BOOL doneThenSave;
+//使用 RBF 時，能自訂 Sigma 標準差
+@property (nonatomic, assign) float sigma;
 
 @property (nonatomic, assign) KRFuzzyCMeansDistanceFormula distanceFormula;
 

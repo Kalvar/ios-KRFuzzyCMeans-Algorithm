@@ -22,7 +22,7 @@
     _krFcm.doneThenSave     = YES;
     _krFcm.m                = 3;
     _krFcm.convergenceError = 0.001f;
-    _krFcm.distanceFormula  = KRFuzzyCMeansDistanceFormulaByEuclidean; //KRFuzzyCMeansDistanceFormulaByCosine
+    _krFcm.distanceFormula  = KRFuzzyCMeansDistanceFormulaRBF; //KRFuzzyCMeansDistanceFormulaEuclidean; //KRFuzzyCMeansDistanceFormulaByCosine
     [_krFcm addCenters:@[@5.0f, @5.0f]];     //The center 1, cluster 1 start in here
     [_krFcm addCenters:@[@10.0f, @10.0f]];   //The center 2, cluster 2 start in here
     [_krFcm addCenters:@[@12.0f, @14.0f]];   //The center 3, cluster 3 start in here

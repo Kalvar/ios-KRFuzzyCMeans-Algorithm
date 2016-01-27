@@ -23,7 +23,7 @@
 @implementation KRFuzzyCMeans(fixDistance)
 
 // Euclidean distance which multi-dimensional formula, 距離越小越近
--(float)_distanceEuclideanX1:(NSArray *)_x1 x2:(NSArray *)_x2
+-(float)_euclideanX1:(NSArray *)_x1 x2:(NSArray *)_x2
 {
     NSInteger _index = 0;
     float _sum       = 0.0f;
@@ -32,13 +32,12 @@
         _sum        += powf([_x floatValue] - [[_x2 objectAtIndex:_index] floatValue], 2);
         ++_index;
     }
-    //return _sum;
     // 累加完距離後直接開根號
     return (_index > 0) ? sqrtf(_sum) : _sum;
 }
 
 // Cosine Similarity method that multi-dimensional, 同歸屬度越大越近
--(float)_distanceCosineSimilarityX1:(NSArray *)_x1 x2:(NSArray *)_x2
+-(float)_cosineSimilarityX1:(NSArray *)_x1 x2:(NSArray *)_x2
 {
     float _sumA  = 0.0f;
     float _sumB  = 0.0f;
@@ -58,17 +57,35 @@
     return ( _ab > 0.0f ) ? ( _sumAB / sqrtf( _ab ) ) : 0.0f;
 }
 
+-(double)_rbf:(NSArray *)_x1 x2:(NSArray *)_x2
+{
+    double _sum      = 0.0f;
+    NSInteger _index = 0;
+    for( NSNumber *_value in _x1 )
+    {
+        // Formula : s = s + ( v1[i] - v2[i] )^2
+        double _v  = [_value doubleValue] - [[_x2 objectAtIndex:_index] doubleValue];
+        _sum      += ( _v * _v );
+        ++_index;
+    }
+    // Formula : exp^( -s / ( 2.0f * sigma * sigma ) )
+    return pow(M_E, ((-_sum) / ( 2.0f * self.sigma * self.sigma )));
+}
+
 // 距離概念是越小越近，歸屬度概念是越大越近 ( 或取其差值，使歸屬度同距離越小越近 )
 -(float)_distanceX1:(NSArray *)_x1 x2:(NSArray *)_x2
 {
     float _distance = 0.0f;
     switch (self.distanceFormula)
     {
-        case KRFuzzyCMeansDistanceFormulaByCosine:
-            _distance = 1.0f - [self _distanceCosineSimilarityX1:_x1 x2:_x2];
+        case KRFuzzyCMeansDistanceFormulaCosine:
+            _distance = 1.0f - [self _cosineSimilarityX1:_x1 x2:_x2];
             break;
-        case KRFuzzyCMeansDistanceFormulaByEuclidean:
-            _distance = [self _distanceEuclideanX1:_x1 x2:_x2];
+        case KRFuzzyCMeansDistanceFormulaEuclidean:
+            _distance = [self _euclideanX1:_x1 x2:_x2];
+            break;
+        case KRFuzzyCMeansDistanceFormulaRBF:
+            _distance = [self _rbf:_x1 x2:_x2];
             break;
         default:
             break;
@@ -342,8 +359,10 @@
         _lastCenters        = nil;
         _currentIteration   = 0;
         
-        _distanceFormula    = KRFuzzyCMeansDistanceFormulaByEuclidean;
+        _distanceFormula    = KRFuzzyCMeansDistanceFormulaEuclidean;
         _trainedSaves       = [KRFuzzyCMeansSaves sharedInstance];
+        
+        _sigma              = 2.0f;
     }
     return self;
 }

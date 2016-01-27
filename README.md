@@ -7,7 +7,7 @@ KRFuzzyCMeans has implemented Fuzzy C-Means (FCM) the fuzzy (ファジー理論)
 
 ```ruby
 platform :ios, '7.0'
-pod "KRFuzzyCMeans", "~> 1.3"
+pod "KRFuzzyCMeans", "~> 1.4"
 ```
 
 ## How to use
@@ -17,13 +17,21 @@ pod "KRFuzzyCMeans", "~> 1.3"
 #import "KRFuzzyCMeans.h"
 ```
 
+##### Distance Methods
+
+``` objective-c
+KRFuzzyCMeansDistanceFormulaEuclidean
+KRFuzzyCMeansDistanceFormulaCosine
+KRFuzzyCMeansDistanceFormulaRBF
+```
+
 #### Training
 ``` objective-c
 KRFuzzyCMeans *_krFcm   = [KRFuzzyCMeans sharedFCM];
 _krFcm.doneThenSave     = YES;
 _krFcm.m                = 3;
 _krFcm.convergenceError = 0.001f;
-_krFcm.distanceFormula  = KRFuzzyCMeansDistanceFormulaByEuclidean; //KRFuzzyCMeansDistanceFormulaByCosine
+_krFcm.distanceFormula  = KRFuzzyCMeansDistanceFormulaEuclidean; //KRFuzzyCMeansDistanceFormulaCosine
 [_krFcm addCenters:@[@5.0f, @5.0f]];     //The center 1, cluster 1 start in here
 [_krFcm addCenters:@[@10.0f, @10.0f]];   //The center 2, cluster 2 start in here
 [_krFcm addCenters:@[@12.0f, @14.0f]];   //The center 3, cluster 3 start in here
@@ -66,7 +74,7 @@ _krFcm.distanceFormula  = KRFuzzyCMeansDistanceFormulaByEuclidean; //KRFuzzyCMea
 
 ## Version
 
-V1.3
+V1.4
 
 ## License
 
